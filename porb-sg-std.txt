@@ -1,0 +1,265 @@
+import pandas as pd
+import requests
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+import scrapy
+from bs4 import BeautifulSoup
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.touch_actions import TouchActions
+from selenium.common.exceptions import NoSuchElementException
+import xlsxwriter
+import time
+
+x = 0
+
+while (x <15):
+
+    driver = webdriver.Chrome(executable_path = './chromedriver.exe')
+    driver.maximize_window()
+
+    site = driver.get("https://www.energyhelpline.com/cashback")
+    time.sleep(5)
+
+    post_code = ["co78nf", "B771PQ", "SW120EE", "LL197YL", "B12AF", "DH11DN", "M281UT", "AB101RZ", "DD68NH", "ME102PJ", "BA100PP", "CF101YX", "PL99TQ", "BB185PP"]
+    time.sleep(3)
+    try:
+        for i in range(x , len(post_code)):
+            pst_code = driver.find_element_by_xpath("/html/body/div[2]/div[2]/section[1]/div[2]/div/div/form/div/input[1]")
+            pst_code.send_keys(post_code[i])
+            pst_code.send_keys(Keys.ENTER)
+                
+            time.sleep(3)
+    except NoSuchElementException:
+        print('Illa')
+        # start = driver.find_element_by_xpath("/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/section/div/select/option[1]")
+        #time.sleep(2)
+    try:
+        addrskp = driver.find_element_by_xpath("//option[@value='address-not-listed']").click()
+    except NoSuchElementException:
+        print('ok')
+        time.sleep(5)
+    try:
+        SG = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/div[3]/div[2]/div/span/div/div/div[2]/label')
+        SG.click()
+        time.sleep(5)
+    except NoSuchElementException:
+        print('2')
+        time.sleep(2)
+
+    try:
+        sg = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/div[3]/div[2]/div/span/div/div/div[2]/label')
+        sg.click()
+        time.sleep(3)
+    except NoSuchElementException:
+        print('3')
+        time.sleep(3)
+
+    # SE = driver.find_element_by_css_selector('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/div[3]/div[2]/div/span/div/div/div[3]/label')
+    # SE.click()
+    # time.sleep(5)
+
+    british_gas = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/div[5]/div/section/div[1]/div[2]/div/span/div/div/div[1]/label').click()
+        
+    # zeb = driver.find_element_by_xpath('/html/body/div[3]/div/div/div/ul/li[92]').click()
+    # time.sleep(3)
+    # Zebra = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/div[7]/div/section/div[2]/div[2]/div/span/div/div/div/div/div[1]')
+    # Zebra.send_keys('Zebra Power')
+    time.sleep(5)
+
+    try:
+        curr_tf = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/section[2]/div[2]/div/div[1]/label').click() 
+        time.sleep(2)
+    except NoSuchElementException:
+        print('ada poda')
+        time.sleep(4)
+    try:
+        nt_sure = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/section[2]/p/label/span[1]/input').click() 
+    except NoSuchElementException:
+        print('ssss')
+        time.sleep(3)
+    try:
+        PORB = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/div[8]/div[2]/div/span/div/div/div[2]/label')
+        PORB.click()                         #/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/div[7]/div[2]/div/span/div/div/div[2]/label
+        time.sleep(2)
+    except NoSuchElementException:
+        print('idhuvuma')
+        time.sleep(5)
+
+    try:
+        PMNT1_ = driver.find_element_by_xpath('//*[@id="current-details-form"]/div[7]/div[2]/div/span/div/div/div[2]/label').click()
+        time.sleep(3)
+    except NoSuchElementException:  
+        print('Nevermind')  
+        time.sleep(5)
+
+        # try:
+        #     e1 = driver.find_element_by_css_selector('#current-details-form > div:nth-child(11) > div.ant-col.ant-form-item-control-wrapper > div > span > div > div > div:nth-child(2) > label > span:nth-child(2) > div > span')[1].click()
+        # except NoSuchElementException:
+        #     print('2121')
+
+
+    # try:
+    #     E7_ = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/div[11]/div[2]/div/span/div/div/div[2]/label/span[2]/div')
+    #     E7_.click()                         
+    # except NoSuchElementException:
+    #     print('E7_No')
+
+    # try:
+    #     E7_clk = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/div[12]/div[2]/div/span/div/div/div[2]/label')
+    #     E7_clk.click()
+    # except NoSuchElementException:
+    #     print('ok then')
+
+    try:
+        Spend = driver.find_element_by_xpath("/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/div[13]/div[2]/div/span/div/div/div[1]/label")
+        Spend.click()                         
+        time.sleep(3)
+    except NoSuchElementException:
+        print('mm')
+        time.sleep(5)
+
+    try:
+        spend11 = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/div[8]/div[2]/div/span/div/div/div[1]/label')
+        spend11.click()
+        time.sleep(3)
+    except NoSuchElementException:
+        print(3)
+        time.sleep(2)
+
+    try:
+        gas_usage = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/section[3]/div[1]/div/div/div/div/span/input')
+        time.sleep(3)
+        gas_usage.send_keys('12000')
+    except NoSuchElementException:
+        print('ok_')
+        time.sleep(3)
+
+        # try:
+        #     elec_usage = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/section[3]/div[2]/div/div/div/div/div/span/input')
+        #     time.sleep(2)
+        #     elec_usage.send_keys('3100')
+        # except NoSuchElementException:    
+        #     print('ok')
+        #     time.sleep(2)
+
+    try:
+        Button = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div/div/div/form/section[5]/button')
+        time.sleep(3)
+        Button.click()
+    except NoSuchElementException:
+        print('finally')
+        time.sleep(2)
+
+        # try:
+        #     tf_pmnt = driver.find_element_by_xpath("/html/body/div[5]/div/div/div/ul/li[3]")
+        #     time.sleep(3)
+        #     tf_pmnt.click()
+        # except NoSuchElementException:
+        #     print('ebbada')
+        # select_fr = Select(driver.find_element_by_xpath("/html/body/div[5]/div/div/div/ul/li[3]"))
+
+        # try:
+        #     select_fr.select_by_index(2)
+        # except NoSuchElementException:
+        #     print('dd')
+        # time.sleep(3)
+
+        # try:
+        #     select_fr.select_by_index('Pay On Receipt Of Bill')
+        # except NoSuchElementException:
+        #     print('dddd')
+        # time.sleep(5)
+        # Q_B = driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div[2]/div[1]/div/form/div[1]/div[2]/div/span/div/div/div/div').click()
+    try:
+        rd_btn = driver.find_element_by_xpath(".//input[@value='ALL_SWITCH']")
+        rd_btn.click()                         
+        time.sleep(3)
+    except NoSuchElementException:
+        print('rd')
+        time.sleep(3)
+    try:
+        load_more = driver.find_element_by_css_selector('#root > section > main > div.page-container > div > div.ant-row > div.ant-col.ant-col-lg-19 > div.results-load-more > button')
+        load_more.click()
+    except NoSuchElementException:
+        print('route')
+        time.sleep(5)
+
+    dict = {}
+
+    supplier_name = driver.find_elements_by_xpath('/html/body/div[1]/section/main/div[2]/div/div[2]/div[2]/div[2]/div/div/div/ul/li/div/div/div[1]/img')
+    tfn = driver.find_elements_by_xpath('/html/body/div[1]/section/main/div[2]/div/div[2]/div[2]/div[2]/div/div/div/ul/li/div/div/div[2]/span/strong')
+    exit_fee = driver.find_elements_by_xpath('/html/body/div[1]/section/main/div[2]/div/div[2]/div[2]/div[2]/div/div/div/ul/li/div/div/div[2]/div[1]/div[1]')
+    est_spend = driver.find_elements_by_xpath('/html/body/div[1]/section/main/div[2]/div/div[2]/div[2]/div[2]/div/div/div/ul/li/div/div/div[3]/div[1]')
+    save = driver.find_elements_by_xpath('/html/body/div[1]/section/main/div[2]/div/div[2]/div[2]/div[2]/div/div/div/ul/li/div/div/div[4]')
+    duration = driver.find_elements_by_xpath('/html/body/div[1]/section/main/div[2]/div/div[2]/div[2]/div[2]/div/div/div/ul/li/div/div/div[2]/div[1]/div[2]')
+
+    choose_plan = driver.find_elements_by_xpath('/html/body/div[1]/section/main/div[2]/div/div[2]/div[2]/div[2]/div[1]/div/div/ul/li/div/div/div[5]')
+
+        # for s1 in driver.find_element_by_tag_name('img'):
+        #     print(s1.text)
+        # for suppp in supplier_name:
+        #     dict.setdefault('suppp',[]).append('src')
+
+        # print("done")
+
+        # for name in supplier_name:
+        #     pre = name.get_attribute("src")
+        #     start = pre.find('gos/') + 4
+        #     stop = pre.find('.png')
+        #     ss = pre[start:stop]
+        #     a = print(ss.text)
+        #     dict.setdefault('SupplierName',[]).append(name.text)
+
+    print("porb")
+    for tariff in tfn:
+        dict.setdefault('TariffName',[]).append(tariff.text)
+            #tariff_ = print(tariff.text)
+    print("appada")
+
+    for exit in exit_fee:
+        dict.setdefault('Exit_fee',[]).append(exit.text)
+            # Exit_fee = print(exit.text)
+    print("ok_dd1")
+
+    for estimate in est_spend:
+        dict.setdefault('estimate',[]).append(estimate.text)
+            # spendd = print(estimate.text)
+    print("hmm")
+
+    for savings in save:
+        dict.setdefault('savings',[]).append(savings.text)
+            #save_upto = print(savings.text)
+    print('ok')
+
+    for type_ in duration:
+        dict.setdefault('duration',[]).append(type_.text)
+            #type_tar = print(type_.text)
+    print('hi') 
+
+    for cp in choose_plan:
+        intd = cp.text
+        dec=""
+        if(intd.find("switch now") != -1):
+            dec = "apply"
+
+        elif(intd.find("only show") != -1):
+            dec = "enquire"
+        dict.setdefault('ENQ/Apply',[]).append(dec)	
+        
+
+
+    data = pd.DataFrame.from_dict(dict, orient = 'index')
+    a = data.transpose()
+    data1 = pd.ExcelWriter(str(post_code[i] + ".xlsx"), engine='xlsxwriter')
+    a.to_excel(data1, sheet_name = str(post_code[i]), index = False, engine = 'xlsxwriter')
+    data1.save()
+    time.sleep(20)
+    print('Nanbenda')
+    driver.close()
+x = i+1
+print(x)

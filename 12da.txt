@@ -1,0 +1,54 @@
+import mdd, porb, ppm
+import multiprocessing
+
+for bot in ('mdd', 'porb','ppm'):
+    p = multiprocessing.Process(target=lambda: __import__(bot))
+    p.start()
+-----------------------------------------------------------------------
+pip install pytest
+pip install pytest-xdist
+
+
+https://docs.pytest.org/en/3.0.0/xdist.html
+
+
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from  multiprocessing import Process
+#import time
+
+def run(urls):
+#    print ("run", urls)
+    options = Options()
+    options.add_argument('--no-sandbox')
+    options.add_argument('--no-default-browser-check')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--disable-default-apps')
+    options.binary_location = '/opt/chrome-linux.63.0.3239.b.508580/chrome'
+    driver = webdriver.Chrome(
+                executable_path='/opt/chromedriver/chromedriver',
+                options=options,
+                )
+
+    for url in urls:
+#        time.sleep(5)
+        driver.get(url)
+#        print driver.title
+    driver.quit()
+
+allurls = [
+        ['http://ya.ru', 'http://google.ru'],
+        ['https://ro.wikipedia.org/wiki/Emil_Constantinescu',
+            'https://ro.wikipedia.org/wiki/Traian_B%C4%83sescu'],
+        ]
+
+processes = []
+for urls in allurls:
+    p = Process(target=run, args=(urls,))
+    processes.append(p)
+    p.start()
+
+for p in processes:
+    p.join()
